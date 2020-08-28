@@ -13,32 +13,40 @@ funktion rader_från(fil)
     ge rader
 slut
 
+funktion är_prefix(prefix, sträng)
+    ge prefix == sträng:sub(1,#prefix)
+slut
+
 funktion översätt(fil)
     lokal rader = rader_från(fil)
     utsträng = ""
     för n,rad i par(rader) gör
-        lokal nyrad,n = rad
-            :gsub("and", "och")
-            :gsub("break", "bryt")
-            :gsub("do", "gör")
-            :gsub("else", "annars")
-            :gsub("elseif", "annarsom")
-            :gsub("end", "slut")
-            :gsub("false", "falskt")
-            :gsub("for", "för")
-            :gsub("function", "funktion")
-            :gsub("if", "om")
-            :gsub("in", "i")
-            :gsub("local", "lokal")
-            :gsub("not", "inte")
-            :gsub("or", "eller")
-            :gsub("repeat", "upprepa")
-            :gsub("return", "ge")
-            :gsub("then", "utför")
-            :gsub("true", "sant")
-            :gsub("until", "tills")
-            :gsub("while", "medan")
-        utsträng = utsträng .. nyrad .. "\n"
+        om inte är_prefix("--", rad) utför
+            lokal nyrad,n = rad
+                :gsub("and", "och")
+                :gsub("break", "bryt")
+                :gsub("do", "gör")
+                :gsub("else", "annars")
+                :gsub("elseif", "annarsom")
+                :gsub("end", "slut")
+                :gsub("false", "falskt")
+                :gsub("for", "för")
+                :gsub("function", "funktion")
+                :gsub("if", "om")
+                :gsub("in", "i")
+                :gsub("local", "lokal")
+                :gsub("not", "inte")
+                :gsub("or", "eller")
+                :gsub("repeat", "upprepa")
+                :gsub("return", "ge")
+                :gsub("then", "utför")
+                :gsub("true", "sant")
+                :gsub("until", "tills")
+                :gsub("while", "medan")
+            utsträng = utsträng .. nyrad .. "\n"
+        annars
+            utsträng = utsträng .. rad .. "\n"
+        slut
     slut
     ge utsträng
 slut
