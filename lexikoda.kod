@@ -1,0 +1,51 @@
+funktion fil_existerar(fil)
+    lokal f = io.open(fil, "rb")
+    om f utför f:close() slut
+    ge f ~= nil
+slut
+
+funktion rader_från(fil)
+    om inte fil_existerar(fil) utför ge {} slut
+    rader = {}
+    för rad i io.lines(fil) gör
+        rader[#rader + 1] = rad
+    slut
+    ge rader
+slut
+
+funktion översätt(fil)
+    lokal rader = rader_från(fil)
+    utsträng = ""
+    för n,rad i par(rader) gör
+        lokal nyrad,n = rad
+            :gsub("and", "och")
+            :gsub("break", "bryt")
+            :gsub("do", "gör")
+            :gsub("else", "annars")
+            :gsub("elseif", "annarsom")
+            :gsub("end", "slut")
+            :gsub("false", "falskt")
+            :gsub("for", "för")
+            :gsub("function", "funktion")
+            :gsub("if", "om")
+            :gsub("in", "i")
+            :gsub("local", "lokal")
+            :gsub("not", "inte")
+            :gsub("or", "eller")
+            :gsub("repeat", "upprepa")
+            :gsub("return", "ge")
+            :gsub("then", "utför")
+            :gsub("true", "sant")
+            :gsub("until", "tills")
+            :gsub("while", "medan")
+        utsträng = utsträng .. nyrad .. "\n"
+    slut
+    ge utsträng
+slut
+
+från_fil = fråga("Vad heter filen du vill översätta?")
+till_fil = io.open(från_fil .. ".kod", "w")
+
+io.output(till_fil)
+io.write(översätt(från_fil .. ".lua"))
+io.close(till_fil)
